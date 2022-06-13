@@ -30,12 +30,12 @@ package ${PROJECT_NAME}
 ```
 **配置git代理**
 ```shell
- git config --global https.proxy http://127.0.0.1:7890
- git config --global http.proxy http://127.0.0.1:7890
+ git conf --global https.proxy http://127.0.0.1:7890
+ git conf --global http.proxy http://127.0.0.1:7890
  
  # 取消配置
- git config --global --unset http.proxy 
- git config --global --unset https.proxy 
+ git conf --global --unset http.proxy 
+ git conf --global --unset https.proxy 
 ```
 
 #### 4.杂记

@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	cfg, err := ini.Load("conf/config.ini")
+	cfg, err := ini.Load("conf/conf.ini")
 	if err != nil {
 		fmt.Printf("Failed to read file: %v", err)
 		os.Exit(1)
@@ -35,5 +35,5 @@ func main() {
 
 	// 差不多了,修改某个值然后进行报错
 	cfg.Section("").Key("app_mode").SetValue("production")
-	cfg.SaveTo("conf/config.ini")
+	cfg.SaveTo("conf/conf.ini")
 }

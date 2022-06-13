@@ -12,12 +12,18 @@ import (
 
 // 专门往kafka写日志的模块
 
+type logData struct {
+	topic string
+	data  string
+}
+
 var (
-	client sarama.SyncProducer // 声明一个全局的连接kafka的生产者client
+	client      sarama.SyncProducer // 声明一个全局的连接kafka的生产者client
+	logDataChan chan *logData
 )
 
 // Init 初始化kafka
-func Init(addrs []string) (err error) {
+func Init(addrs []string, maxSize int) (err error) {
 	config := sarama.NewConfig()
 	config.Producer.RequiredAcks = sarama.WaitForAll          // 发送完数据需要leader和follow都确认
 	config.Producer.Partitioner = sarama.NewRandomPartitioner // 新选出一个partition
@@ -29,6 +35,8 @@ func Init(addrs []string) (err error) {
 		fmt.Println("producer closed, err:", err)
 		return
 	}
+	// 初始化lodDataChan
+	logDataChan = make(chan *logData, maxSize)
 	return
 }
 

@@ -41,7 +41,7 @@ type Author struct {
 }
 
 func main() {
-	cfg, err := ini.Load("conf/config.ini")
+	cfg, err := ini.Load("conf/conf.ini")
 	if err != nil {
 		fmt.Println(err)
 		return
