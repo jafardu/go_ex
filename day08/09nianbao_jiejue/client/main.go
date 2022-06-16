@@ -12,14 +12,14 @@ import (
 	"net"
 )
 
-func main(){
-	conn,err := net.Dial("tcp","127.0.0.1:30000")
-	if err!=nil{
+func main() {
+	conn, err := net.Dial("tcp", "127.0.0.1:30000")
+	if err != nil {
 		log.Fatalf("failed to Dial : %v", err)
 		return
 	}
 	defer conn.Close()
-	for i:=0;i<20;i++{
+	for i := 0; i < 20; i++ {
 		//inputReader := bufio.NewReader(os.Stdin)
 		//fmt.Println("请输入自己的名字:")
 		//clientName,_:=inputReader.ReadString('\n')
@@ -30,9 +30,9 @@ func main(){
 		//conn.Write([]byte(trimInput+"says:" + trimInput))
 		msg := `Hello, Hello. How are you?`
 		// 调用协议编码数据
-		b,err:= protocol.Encode(msg)
-		if err !=nil{
-			fmt.Println("encode failed,err:",err)
+		b, err := protocol.Encode(msg)
+		if err != nil {
+			fmt.Println("encode failed,err:", err)
 			return
 		}
 		conn.Write(b)

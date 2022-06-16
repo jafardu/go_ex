@@ -11,6 +11,6 @@ import (
 )
 
 func main() {
-	ret := split_string.Split("hello,world","l")
-	fmt.Printf("%#v\n",ret)
+	ret := split_string.Split("hello,world", "l")
+	fmt.Printf("%#v\n", ret)
 }
