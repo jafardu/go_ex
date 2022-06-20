@@ -16,15 +16,22 @@ filename="./log.txt"
 */
 
 type kafkaConf struct {
-	Address string `ini:"address"`
-	Topic   string `ini:"topic"`
+	Address     string `ini:"address"`
+	Topic       string `ini:"topic"`
+	ChanMaxSize int    `ini:"chanmaxsize"`
 }
 
-type tailLogConf struct {
+type TailLogConf struct {
 	FileName string `ini:"filename"`
 }
 
+type EtcdConf struct {
+	Address string `ini:"address"`
+	Timeout int    `ini:"timeout"`
+	Key     string `ini:"key"`
+}
 type AppConf struct {
 	kafkaConf
-	tailLogConf
+	TailLogConf
+	EtcdConf
 }

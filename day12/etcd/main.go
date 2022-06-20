@@ -26,7 +26,7 @@ func main() {
 	fmt.Println("etcd connect success")
 
 	// put
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	ctx, cancel := context.WithTimeout(context.TODO(), time.Second)
 
 	_, err = cli.Put(ctx, "foo", "k8s")
 	cancel()
@@ -37,7 +37,7 @@ func main() {
 
 	// get
 	ctx, cancel = context.WithTimeout(context.Background(), time.Second)
-	resp, err := cli.Get(ctx, "001")
+	resp, err := cli.Get(ctx, "foo")
 	cancel()
 	if err != nil {
 		fmt.Printf("get from etcd failed, err:%v\n", err)
