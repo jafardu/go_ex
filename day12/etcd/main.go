@@ -15,7 +15,7 @@ import (
 
 func main() {
 	cli, err := clientv3.New(clientv3.Config{
-		Endpoints:   []string{"100.200.0.179:2379"},
+		Endpoints:   []string{"192.168.10.7:2379"},
 		DialTimeout: 5 * time.Second,
 	})
 	if err != nil {
@@ -28,7 +28,7 @@ func main() {
 	// put
 	ctx, cancel := context.WithTimeout(context.TODO(), time.Second)
 
-	_, err = cli.Put(ctx, "foo", "k8s")
+	_, err = cli.Put(ctx, "foo01", "k8s")
 	cancel()
 	if err != nil {
 		log.Fatal("put failed")

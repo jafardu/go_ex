@@ -10,7 +10,9 @@ import (
 	"go_ex/logagent/conf"
 	"go_ex/logagent/etcd"
 	"go_ex/logagent/kafka"
+	"go_ex/logagent/utils"
 	"gopkg.in/ini.v1"
+	"time"
 )
 
 // logAgent入口程序
@@ -41,7 +43,7 @@ func main() {
 		return
 	}
 	// 1.初始化kafka连接
-	err = kafka.Init([]string{cfg.}, cfg.ChanMaxSize)
+	err = kafka.Init([]string{cfg.KafkaConf.Address}, cfg.KafkaConf.ChanMaxSize)
 	if err != nil {
 		fmt.Printf("init Kafka failed,err:%v\n", err)
 		return
@@ -49,5 +51,12 @@ func main() {
 	fmt.Println("init kafka success.")
 
 	// 2.初始化ETCD
-	err = etcd.Init(cfg.Add)
+	err = etcd.Init(cfg.EtcdConf.Address, time.Duration(cfg.EtcdConf.Timeout)*time.Second)
+	if err != nil {
+		fmt.Printf("init etcd failed,err:%v\n", err)
+		return
+	}
+
+	// 为了实现每个logagent都拉去自己独有的配置,所以要以自己的IP地址作为区分
+	ipStr, err := utils.GetOutboundIP()
 }

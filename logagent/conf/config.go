@@ -15,7 +15,7 @@ topic=web_log
 filename="./log.txt"
 */
 
-type kafkaConf struct {
+type KafkaConf struct {
 	Address     string `ini:"address"`
 	Topic       string `ini:"topic"`
 	ChanMaxSize int    `ini:"chanmaxsize"`
@@ -31,7 +31,7 @@ type EtcdConf struct {
 	Key     string `ini:"key"`
 }
 type AppConf struct {
-	kafkaConf
+	KafkaConf
 	TailLogConf
 	EtcdConf
 }
