@@ -1,7 +1,7 @@
 /*
 * @Description:
 * @Author: jafar du
-* @Date: 2022/6/25 7:29
+* @Date: 2022/6/27 7:27
  */
 package main
 
@@ -15,24 +15,22 @@ import (
 	"strings"
 )
 
-func Write(conn net.Conn, txt string) error {
+func write(conn net.Conn, txt string) error {
 	length := len(txt)
-	n, err := conn.Write([]byte(fmt.Sprintf("%05d", length)))
+	_, err := conn.Write([]byte(fmt.Sprintf("%05d", length)))
 	if err != nil {
-		fmt.Println(n, err)
+		fmt.Println(err)
 		return err
 	}
-	n, err = conn.Write([]byte(txt))
+	_, err = conn.Write([]byte(txt))
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
 	return nil
 }
-
 func read(conn net.Conn) (string, error) {
 	lengthBytes := make([]byte, 5)
-	//conn.Read(lengthBytes)
 	_, err := conn.Read(lengthBytes)
 	if err != nil {
 		fmt.Println(err)
@@ -46,19 +44,19 @@ func read(conn net.Conn) (string, error) {
 	ctx := make([]byte, length)
 	_, err = conn.Read(ctx)
 	if err != nil {
-		fmt.Println(err)
-		return "", err
+		if err != io.EOF {
+			fmt.Println(err)
+			return "", err
+		}
+		return string(ctx), nil
 	}
-	return string(ctx), nil
 }
-
 func input(prompt string) string {
-	fmt.Println(prompt)
+	fmt.Print(prompt)
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Scan()
 	return strings.TrimSpace(scanner.Text())
 }
-
 func main() {
 	addr := "127.0.0.1:8888"
 	protocol := "tcp"
@@ -69,14 +67,13 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-
+	// 2.交换数据
 	for {
-		// 2.交换数据
 		txt := input("请输入信息:")
 		if txt == "exit" {
 			break
 		}
-		err := Write(conn, txt)
+		err := write(conn, txt)
 		if err != nil {
 			if err != io.EOF {
 				fmt.Println(err)
@@ -90,7 +87,8 @@ func main() {
 			}
 			break
 		}
-		fmt.Printf("服务器端响应:%s\n", txt)
+		fmt.Printf("服务器端响应: %s\n", txt)
+
 	}
 	// 3.关闭
 	conn.Close()
