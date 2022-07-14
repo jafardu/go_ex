@@ -11,18 +11,18 @@ import (
 )
 
 type AddRequest struct {
-	left  int
-	right int
+	Left  int
+	Right int
 }
 
 type AddResponse struct {
-	result int
+	Result int
 }
 
 type Calc struct{}
 
-func (c *Calc) Add(req AddRequest, resp AddResponse) error {
-	resp.result = req.right + req.left
+func (c *Calc) Add(req AddRequest, resp *AddResponse) error {
+	resp.Result = req.Left + req.Right
 	return nil
 }
 
