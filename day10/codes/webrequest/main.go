@@ -10,6 +10,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -19,6 +20,7 @@ func main() {
 
 	})
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println(strings.Repeat("-", 30))
 
 		// 请求行
 		fmt.Println("method:", r.Method)
@@ -26,16 +28,18 @@ func main() {
 		fmt.Println("protocol:", r.Proto)
 
 		// 请求头
+		fmt.Println(r.Host)
+
 		h := r.Header
 		fmt.Println(h.Get("User-Agent"))
 
 		fmt.Println(h.Get("Token"))
 
-		fmt.Fprint(w, time.Now().Format("2006-01+02 15:04:05"))
-
 		// 请求体
 		fmt.Println("body:")
 		io.Copy(os.Stdout, r.Body)
+
+		fmt.Fprint(w, time.Now().Format("2006-01+02 15:04:05"))
 
 	})
 	err := http.ListenAndServe(addr, nil)
