@@ -1,0 +1,136 @@
+1. 复习
+   重定向： http.Redirect(w,r,url,302)
+2. 数据库
+    关系型数据库
+        MySql
+        PostgreSQL
+        access
+        Oracle
+        SQLServer
+        SQLlite
+    非关系型数据库
+        K-V: redis,etcd
+        文档的： mongodb，es
+        面向列： cassandra，hbase/hdfs
+        。。。
+       Mysql mariadb > 5.5
+       SQL
+           DDL # 创建函数
+           DCL #数据库控制语言(用户定义,权限配置)
+           DQL # 数据查询语言
+           DML # update delete insert
+       Go操作Mysql
+       练习
+3. test
+### DCL
+    账号: 用户名@访问范围
+        ip地址,cidr格式
+        % 占位
+        
+- create user golang@'%' identified by 'golang@2022';
+- select user,host from mysql.user;
+- grant all privileges on dbname.tablename/function to 'golang@'%''
+- grant all privileges on user.* to 'golang@'%'';
+- show grants for 'golang@'%'';
+- drop user;
+
+### DDL
+    库:
+        查看所有库: 
+            show databases;
+        创建库: 
+            create database 库名 default charset utf8mb4;
+        查看详情:
+            show create database user;
+        删除库:
+            drop database user;
+        使用库:
+            use user;
+    表:
+        查看所有表
+            show tables;
+        创建表
+            create table 表名(
+                列名 列的类型 [列的修饰]
+            ) engine=innodb default charset utf8mb4;
+
+            库名, 表名,列名: 小写英文字母,_
+            分表分库: log_数字/日期
+
+            id 整数 int=>int32, bigint => int64
+            name 字符串类型
+                string []byte
+                char(length)
+                * varchar(length)
+                * text 65535字节
+                *    longtext 4G
+                blob
+            password
+            sex bool
+                true 男
+                false 女
+            birthday
+                time.time
+                datetime
+            addr
+            tel
+
+            create table user (
+                id bigint,
+                name varchar(32),
+                password varchar(1024),
+                sex bool,
+                birthday datetime,
+                addr text,
+                tel varchar(32)
+            ) engine=innodb default charset utf8bm4 comment='注释信息';
+            show tables;
+
+        查看详情
+            desc 表名;
+            show create table 表名;
+            show create table user;
+
+        删除表
+            drop table 表名;
+            show tables;
+
+        数据类型:
+            数值类型
+                布尔类型 bool
+                整型
+                    tinyint 1
+                    smallint 2
+                    * int 4
+                    mediumint 6
+                    * bigint 8
+                浮点型
+                    * float 4
+                    double 8
+                    * decimal(m,d) 16 m: 有效位数 小数点之前和小数点之后的数字的个数最大值
+                                    d: 小数点后最大位数
+
+            字符类型
+                char
+                * varchar
+                * text 65535 tinytext 255 mediumtext 16M longtext 4G
+                blob
+                json => 关系型数据库支持文档格式
+                enum
+
+            日期类型
+                date 年月日
+                time 时分秒
+                * datetime 年月日时分秒
+                timestamp 年月日时分秒
+                    更新时会自动更新为当前时间
+
+        修饰
+            主键: PRIMARY KEY
+            主键自动增长: int/bigint AUTO_INCREMENT
+            唯一: UNIQUE KEY
+            非NULL: NOT NULL
+                默认值: DEFAULT value
+                       DEFAULT 0
+                       DEFAULT ''
+            注释: COMMENT '',

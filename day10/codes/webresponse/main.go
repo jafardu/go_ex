@@ -6,10 +6,12 @@
 package main
 
 import (
-	"fmt"
+	"io"
 	"net/http"
+	"os"
 )
 
+/*
 var html = `<!DOCTYPE html>
 <html>
 	<head>
@@ -22,14 +24,24 @@ var html = `<!DOCTYPE html>
 		<label>姓名</label><input name="username" type="text"/>
 		<label>密码</label><input name="password" type="password"/>
 		<label>性别</label>
-			<input type="radio" name="sex" value="1" checked="checked"/><label>男</label> 
-			<input type="radio" name="sex" value="0"/><label>女</label> 
+			<input type="radio" name="sex" value="1" checked="checked"/><label>男</label>
+			<input type="radio" name="sex" value="0"/><label>女</label> </br>
 		<label>爱好</label>
-			<input type="checkbox" name="hobby" value="1" checked="checked"/><label>足球</label> 
-			<input type="checkbox" name="hobby" value="2"/><label>篮球</label> 
-			<input type="checkbox" name="hobby" value="3"/><label>羽毛球</label> 
-		<input type="submit" value="登录" />
-		<input type="button" value="button" />
+			<input type="checkbox" name="hobby" value="1" checked="checked"/><label>足球</label>
+			<input type="checkbox" name="hobby" value="2"/><label>篮球</label>
+			<input type="checkbox" name="hobby" value="3"/><label>羽毛球</label>
+			<input type="checkbox" name="hobby" value="3"/><label>乒乓球</label><br/>
+		<label>部门</label>
+		<select name="department">
+			<option value="dev">开发</option>
+			<option value="test" selected="selected">测试</option>
+			<option value="ops">运维</option>
+		</select></br>
+		<label>备注</label>
+			<textarea name="remark"></textarea>
+
+		<input type="submit" value="登录" /><br/>
+		<input type="button" value="button" /><br/>
 		<button type="button">按钮</button>
 		<button type="submit">按钮</button>
 	</form>
@@ -90,12 +102,14 @@ var html = `<!DOCTYPE html>
 
 </html>
 `
-
+*/
 func main() {
 	addr := ":8080"
 	// 动态的生产响应结果
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, html)
+		f, _ := os.Open("./template/index.html")
+		io.Copy(w, f)
+		//fmt.Fprint(w, html)
 	})
 	http.ListenAndServe(addr, nil)
 }
