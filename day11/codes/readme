@@ -134,3 +134,59 @@
                        DEFAULT 0
                        DEFAULT ''
             注释: COMMENT '',
+
+    修改表
+        列 重命名,添加,类型修改,删除列
+        alter table 表名 add/change/drop column 列名 列类型 列的修饰;
+                                            修列名 新列名 列类型 列的修饰;
+                                            列名;
+        alter table user add column created_at datetime not null;
+索引
+    针对查询字段,不会针对枚举类型创建
+        用户 status int 1:未激活 2:正常使用 3:锁定 4:删除
+
+    create unique index 唯一索引名称 [using 索引类型](创建的列) on 表名;
+    create index 索引名称 using 索引类型(创建的列)
+    列>1 联合索引
+    hash * btree rtree
+
+
+    create index idx_name on user(name);
+    create index idx_birthday on user(birthday);
+    create index idx_addr on user(addr);
+    create index idx_tel on user(tel);
+
+    show create table user;
+
+
+    create table user (
+                    id bigint,
+                    name varchar(32),
+                    password varchar(1024),
+                    sex bool,
+                    birthday datetime,
+                    addr text,
+                    tel varchar(32),
+                    index idx_name(name)
+                ) engine=innodb default charset utf8bm4 comment='注释信息';
+
+    create unique index idx_name on user(name);
+
+    drop unique index 索引名称;
+    drop index 索引名称 on 表名;
+
+
+### DQL
+
+    select * from 表名;
+
+### DML
+    添加
+        insert  into 表名(列名) value(值);
+        insert into 表名 values(值); // 所有列都添加数据
+
+        NOT NULL 但是未设置DEFAULT 插入数据时必须指定该列  ##        alter table user add column created_at datetime not null;
+
+
+    修改
+    删除
